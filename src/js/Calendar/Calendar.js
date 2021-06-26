@@ -1,4 +1,5 @@
 import { CalendarController } from "./Calendar-Controller";
+import { clickToDate } from "./click-to-date";
 
 export class Calendar {
   constructor(initId, {
@@ -19,6 +20,7 @@ export class Calendar {
     this.date = new Date();
     this.month;
     this.year;
+    this.days = document.querySelectorAll('.calendar__day');
     this.weekDays = [
       {
         ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
@@ -44,5 +46,6 @@ export class Calendar {
     const controller = new CalendarController(this.date, this.monthElement, this.yearElement, this.startWeek, this.daysWrapper);
     controller.renderMonthYear();
     controller.bindEventListeners(this.arrowPrev, this.arrowNext);
+    clickToDate(this.daysWrapper, this.days);
   }
 }

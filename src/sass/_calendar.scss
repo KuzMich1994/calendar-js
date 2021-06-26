@@ -82,20 +82,22 @@
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
-    color: #787878;
     cursor: pointer;
     &_today {
-      border: 1px solid #DBDBDB;
+      border: 1px solid #787878;
       border-radius: 50%;
     }
     &_active {
       border: transparent;
       background-color: #CD202C;
-      color: $text-color-light;
       border-radius: 50%;
+      color: $text-color-light !important;
     }
   }
-  &__next-date, &__prev-date {
-    color: #DBDBDB;
+  &__day {
+    color: #222222;
+    &-disable {
+      color: #787878;
+    }
   }
 }

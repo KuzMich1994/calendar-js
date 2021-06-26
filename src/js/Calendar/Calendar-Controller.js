@@ -7,6 +7,7 @@ export class CalendarController {
     this.month;
     this.year;
     this.startWeek = startWeek;
+    this.calendarDay;
     this.months = [
       'Январь',
       'Февраль',
@@ -38,6 +39,8 @@ export class CalendarController {
     this.yearElement.textContent = `${this.year}`;
   }
 
+
+
   renderCalendar(date) {
     this.setDate();
     let days = '';
@@ -60,7 +63,7 @@ export class CalendarController {
     
 
     for (let x = firstDayIndex; x > 0; x--) {
-      days += `<span class="calendar__day calendar__day-prev-date">${prevLastDay - x + 1}</span>`;
+      days += `<span class="calendar__day calendar__day-prev-date calendar__day-disable">${prevLastDay - x + 1}</span>`;
     }
 
     for (let i = 1; i <= lastDay; i++) {
@@ -72,23 +75,28 @@ export class CalendarController {
     }
 
     for (let j = 1; j <= nextDays; j++) {
-      days += `<span class="calendar__day calendar__day-next-date">${j}</span>`;
+      days += `<span class="calendar__day calendar__day-next-date calendar__day-disable">${j}</span>`;
       this.daysWrapper.innerHTML = days;
     }
 
-    const daysInHTML = document.querySelectorAll('.calendar__day');
+    this.daysInHTML = document.querySelectorAll('.calendar__day');
         
-    for (let k = daysInHTML.length; k > 41; k--) {
-      if (daysInHTML[k]) {
-        daysInHTML[k].remove();
+    for (let k = this.daysInHTML.length; k > 41; k--) {
+      if (this.daysInHTML[k]) {
+        this.daysInHTML[k].remove();
       }
     }
   }
 
   bindEventListeners(arrowPrev, arrowNext) {
+    // this.calendarDay = document.querySelectorAll('.calendar__day');
     this.renderCalendar(this.date);
     arrowPrev.addEventListener('click', () => this._changeMinus(this.date));
     arrowNext.addEventListener('click', () => this._changePlus(this.date));
+  }
+
+  _addTargetDay(e) {
+    
   }
 
   _changeMinus(date) {
