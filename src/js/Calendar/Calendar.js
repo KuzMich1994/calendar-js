@@ -46,6 +46,6 @@ export class Calendar {
     const controller = new CalendarController(this.date, this.monthElement, this.yearElement, this.startWeek, this.daysWrapper);
     controller.renderMonthYear();
     controller.bindEventListeners(this.arrowPrev, this.arrowNext);
-    clickToDate(this.daysWrapper, this.days);
+    clickToDate(this.daysWrapper);
   }
 }

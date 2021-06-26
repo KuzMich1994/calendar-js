@@ -1,3 +1,5 @@
+import { clickToDate } from "./click-to-date";
+
 export class CalendarController {
   constructor(date, monthElement, yearElement, startWeek, daysWrapper) {
     this.daysWrapper = daysWrapper;
@@ -86,6 +88,8 @@ export class CalendarController {
         this.daysInHTML[k].remove();
       }
     }
+
+    clickToDate(this.daysWrapper);
   }
 
   bindEventListeners(arrowPrev, arrowNext) {
