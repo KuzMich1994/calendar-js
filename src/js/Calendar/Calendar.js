@@ -52,5 +52,8 @@ export class Calendar {
     // console.log(this.eventsData);
     controller.getEventsData();
     controller.setEvents();
+    controller.appendEventPopup();
+    controller.addDataDateInPopup();
+    controller.renderPopupTextContent();
   }
 }

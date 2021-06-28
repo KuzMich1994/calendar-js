@@ -2,9 +2,32 @@
   border: 1px solid transparent;
   border-radius: 50%;
   &__prev {
-    border-color: violet;
+    border-color: #D9DBDF;
   }
   &__next {
-    border-color: #31b74f;
+    border-color: #E21A1A;
+  }
+  &__today {
+    border-color: #E21A1A;
+  }
+  &__popup {
+    position: absolute;
+    width: 200px;
+    height: max-content;
+    // top: -10;
+    bottom: 100%;
+    left: 0;
+    padding: 10px;
+    padding-bottom: 6px;
+    font-family: IBM Plex Sans, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color: $text-color-dark;
+    background-color: #FFFFFF;
+    border: 1px solid #787878;
+    text-align: left;
+    z-index: -1;
   }
 }

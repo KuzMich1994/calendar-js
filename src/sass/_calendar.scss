@@ -69,6 +69,7 @@
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(6, 1fr);
     height: 300px;
+    grid-row-gap: 5px;
   }
   &__day, &__next-date, &__prev-date {
     width: 51px;
@@ -84,7 +85,7 @@
     line-height: 22px;
     cursor: pointer;
     &_today {
-      border: 1px solid #787878;
+      background-color: #FFEDED;
       border-radius: 50%;
     }
     &_active {
@@ -95,9 +96,16 @@
     }
   }
   &__day {
+    position: relative;
     color: #222222;
+    text-decoration: none;
     &-disable {
       color: #787878;
+    }
+    &:hover {
+      .event__popup {
+        z-index: 1;
+      }
     }
   }
 }

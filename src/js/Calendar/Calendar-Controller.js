@@ -11,6 +11,8 @@ export class CalendarController {
     this.startWeek = startWeek;
     this.calendarDay;
     this.eventsData = eventsData;
+    this.eventsDays;
+    this.eventPopups;
     this.months = [
       'Январь',
       'Февраль',
@@ -62,7 +64,6 @@ export class CalendarController {
     if (firstDayIndex < 0) {
       firstDayIndex = date.getDay() + 7 - this.startWeek;
     }
-    console.log('firstDayIndex: ', firstDayIndex);
     
 
     for (let x = firstDayIndex; x > 0; x--) {
@@ -70,17 +71,14 @@ export class CalendarController {
     }
 
     for (let i = 1; i <= lastDay; i++) {
-      // const dayOfEvent = new Date().getDay(i);
-      // console.log('dayOfEvent: ', dayOfEvent);
-      console.log();
       if (i === new Date().getDate() && this.date.getMonth() === new Date().getMonth()) {
-        days += `<span 
+        days += `<a href="#"
         class="calendar__day calendar__day_today" 
-        data-date="${this.date.getFullYear()}-${this.date.getMonth() < 10 ? '0' + (this.date.getMonth() + 1) : (this.date.getMonth() + 1)}-${i < 10 ? '0' + i : i}">${i}</span>`;
+        data-date="${this.date.getFullYear()}-${this.date.getMonth() < 10 ? '0' + (this.date.getMonth() + 1) : (this.date.getMonth() + 1)}-${i < 10 ? '0' + i : i}">${i}</a>`;
       } else {
-        days += `<span 
+        days += `<a href="#"
         class="calendar__day" 
-        data-date="${this.date.getFullYear()}-${this.date.getMonth() < 9 ? '0' + (this.date.getMonth() + 1) : (this.date.getMonth() + 1)}-${i < 10 ? '0' + i : i}">${i}</span>`;
+        data-date="${this.date.getFullYear()}-${this.date.getMonth() < 9 ? '0' + (this.date.getMonth() + 1) : (this.date.getMonth() + 1)}-${i < 10 ? '0' + i : i}">${i}</a>`;
       }
     }
 
@@ -119,7 +117,15 @@ export class CalendarController {
         calendarDays[i].classList.add('event__prev');
       }
       if (i > new Date().getDate() - 1) {
-        calendarDays[i].classList.add('event__next')
+        calendarDays[i].classList.add('event__next');
+      }
+      if (i < new Date().getDate() && this.date.getMonth() > new Date().getMonth()) {
+        calendarDays[i].classList.remove('event__prev');
+        calendarDays[i].classList.add('event__next');
+      }
+      if (i > new Date().getDate() && this.date.getMonth() < new Date().getMonth()) {
+        calendarDays[i].classList.remove('event__next');
+        calendarDays[i].classList.add('event__prev');
       }
       if (i === new Date().getDate() - 1 && this.date.getMonth() === new Date().getMonth()) {
         calendarDays[i].classList.remove('event__prev');
@@ -132,12 +138,51 @@ export class CalendarController {
     const daysWithEvent = document.querySelectorAll('[data-date]');
     this.eventsData.forEach(eventData => {
       daysWithEvent.forEach(day => {
-        console.log(day.dataset.date === eventData.start);
         if (day.dataset.date === eventData.start) {
           day.classList.add('event');
         }
       });
     });
+  }
+
+  appendEventPopup() {
+    this.eventsDays = document.querySelectorAll('.event');
+    this.eventsData.forEach((data, indexData) => {
+    })
+    this.eventsDays.forEach((eventDay, index) => {
+      this.eventPopup = document.createElement('div');
+      this.eventPopup.classList.add('event__popup');
+      eventDay.append(this.eventPopup);
+    });
+  }
+
+
+  addDataDateInPopup() {
+    this.eventPopups = document.querySelectorAll('.event__popup');
+    const eventDays = document.querySelectorAll('.event');
+    
+    eventDays.forEach((day, index) => {
+      this.eventPopups[index].dataset.date = day.dataset.date;
+    });
+  }
+
+  renderPopupTextContent() {
+    this.eventPopups = document.querySelectorAll('.event__popup');
+
+    this.eventPopups.forEach(popup => {
+      this.eventsData.forEach((data, index) => {
+        if (popup.dataset.date === data.start) {
+          popup.textContent = data.description;
+          this.eventsDays.forEach(day => {
+            day.href = data.eventUrl;
+          })
+        }
+      });
+    });
+
+    // for (let i = 0; i < eventPopups.length; i++) {
+    //   console.log(this.eventsData[i]);
+    // }
   }
 
   _changeMinus(date) {
@@ -147,6 +192,9 @@ export class CalendarController {
     this.renderCalendar(date);
     this.getEventsData();
     this.setEvents();
+    this.appendEventPopup();
+    this.addDataDateInPopup();
+    this.renderPopupTextContent();
   }
 
   _changePlus(date) {
@@ -156,5 +204,8 @@ export class CalendarController {
     this.renderCalendar(date);
     this.getEventsData();
     this.setEvents();
+    this.appendEventPopup();
+    this.addDataDateInPopup();
+    this.renderPopupTextContent();
   }
 }
