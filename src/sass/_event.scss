@@ -1,0 +1,10 @@
+.event {
+  border: 1px solid transparent;
+  border-radius: 50%;
+  &__prev {
+    border-color: violet;
+  }
+  &__next {
+    border-color: #31b74f;
+  }
+}

@@ -13,6 +13,39 @@ import { Calendar } from './Calendar/Calendar';
 //   startWeek: 1,
 // });
 
+const events = [
+  {
+    start: '2021-06-23',
+    name: 'test',
+    eventUrl: 'https://vk.com/kuz.mich',
+    description: 'blablabla',
+  },
+  {
+    start: '2021-06-24',
+    name: 'test1',
+    eventUrl: 'https://vk.com/kuz.mich',
+    description: 'blablabla',
+  },
+  {
+    start: '2021-06-25',
+    name: 'test2',
+    eventUrl: 'https://vk.com/kuz.mich',
+    description: 'blablabla',
+  },
+  {
+    start: '2021-06-30',
+    name: 'test2',
+    eventUrl: 'https://vk.com/kuz.mich',
+    description: 'blablabla',
+  },
+  {
+    start: '2021-07-01',
+    name: 'test2',
+    eventUrl: 'https://vk.com/kuz.mich',
+    description: 'blablabla',
+  },
+]
+
 const calendar = new Calendar('railway-calendar', {
   arrowPrev: '.calendar__handler-button_prev',
   arrowNext: '.calendar__handler-button_next',
@@ -20,6 +53,7 @@ const calendar = new Calendar('railway-calendar', {
   monthElement: '.month',
   yearElement: '.year',
   startWeek: 1,
+  eventsData: events,
 });
 
 calendar.init();

@@ -1,7 +1,7 @@
 import { clickToDate } from "./click-to-date";
 
 export class CalendarController {
-  constructor(date, monthElement, yearElement, startWeek, daysWrapper) {
+  constructor(date, monthElement, yearElement, startWeek, daysWrapper, eventsData) {
     this.daysWrapper = daysWrapper;
     this.monthElement = monthElement;
     this.yearElement = yearElement;
@@ -10,6 +10,7 @@ export class CalendarController {
     this.year;
     this.startWeek = startWeek;
     this.calendarDay;
+    this.eventsData = eventsData;
     this.months = [
       'Январь',
       'Февраль',
@@ -69,10 +70,17 @@ export class CalendarController {
     }
 
     for (let i = 1; i <= lastDay; i++) {
+      // const dayOfEvent = new Date().getDay(i);
+      // console.log('dayOfEvent: ', dayOfEvent);
+      console.log();
       if (i === new Date().getDate() && this.date.getMonth() === new Date().getMonth()) {
-        days += `<span class="calendar__day calendar__day_today">${i}</span>`;
+        days += `<span 
+        class="calendar__day calendar__day_today" 
+        data-date="${this.date.getFullYear()}-${this.date.getMonth() < 10 ? '0' + (this.date.getMonth() + 1) : (this.date.getMonth() + 1)}-${i < 10 ? '0' + i : i}">${i}</span>`;
       } else {
-        days += `<span class="calendar__day">${i}</span>`;
+        days += `<span 
+        class="calendar__day" 
+        data-date="${this.date.getFullYear()}-${this.date.getMonth() < 9 ? '0' + (this.date.getMonth() + 1) : (this.date.getMonth() + 1)}-${i < 10 ? '0' + i : i}">${i}</span>`;
       }
     }
 
@@ -103,11 +111,42 @@ export class CalendarController {
     
   }
 
+  getEventsData() {
+    const calendarDays = document.querySelectorAll('.calendar__day:not(.calendar__day-prev-date, .calendar__day-next-date)');
+    
+    for (let i = 0; i < calendarDays.length; i++) {
+      if (i < new Date().getDate() - 1) {
+        calendarDays[i].classList.add('event__prev');
+      }
+      if (i > new Date().getDate() - 1) {
+        calendarDays[i].classList.add('event__next')
+      }
+      if (i === new Date().getDate() - 1 && this.date.getMonth() === new Date().getMonth()) {
+        calendarDays[i].classList.remove('event__prev');
+        calendarDays[i].classList.add('event__today');
+      }
+    }
+  }
+
+  setEvents() {
+    const daysWithEvent = document.querySelectorAll('[data-date]');
+    this.eventsData.forEach(eventData => {
+      daysWithEvent.forEach(day => {
+        console.log(day.dataset.date === eventData.start);
+        if (day.dataset.date === eventData.start) {
+          day.classList.add('event');
+        }
+      });
+    });
+  }
+
   _changeMinus(date) {
     this.setDate();
     date.setMonth(date.getMonth() - 1);
     this.renderMonthYear();
     this.renderCalendar(date);
+    this.getEventsData();
+    this.setEvents();
   }
 
   _changePlus(date) {
@@ -115,5 +154,7 @@ export class CalendarController {
     date.setMonth(date.getMonth() + 1);
     this.renderMonthYear();
     this.renderCalendar(date);
+    this.getEventsData();
+    this.setEvents();
   }
 }

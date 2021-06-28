@@ -9,6 +9,7 @@ export class Calendar {
     monthElement,
     yearElement,
     daysWrapper,
+    eventsData,
   }) {
     this.initId = document.getElementById(initId);
     this.startWeek = startWeek;
@@ -26,6 +27,7 @@ export class Calendar {
         ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
       }
     ];
+    this.eventsData = eventsData;
     this.months = [
       'Январь',
       'Февраль',
@@ -43,9 +45,12 @@ export class Calendar {
   }
 
   init() {
-    const controller = new CalendarController(this.date, this.monthElement, this.yearElement, this.startWeek, this.daysWrapper);
+    const controller = new CalendarController(this.date, this.monthElement, this.yearElement, this.startWeek, this.daysWrapper, this.eventsData);
     controller.renderMonthYear();
     controller.bindEventListeners(this.arrowPrev, this.arrowNext);
     clickToDate(this.daysWrapper);
+    // console.log(this.eventsData);
+    controller.getEventsData();
+    controller.setEvents();
   }
 }
